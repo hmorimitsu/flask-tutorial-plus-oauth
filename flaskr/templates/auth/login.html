@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block header %}
+  <h1>{% block title %}Log In{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+  {% if is_github_found %}
+    <form action="{{ url_for('auth.github_login') }}" method="post">
+      {{ github_form.hidden_tag() }}
+      {{ github_form.login() }}
+    </form>
+  {% endif %}
+  {% if is_google_found %}
+    <form action="{{ url_for('auth.google_login') }}" method="post">
+      {{ google_form.hidden_tag() }}
+      {{ google_form.login() }}
+    </form>
+  {% endif %}
+  {% if not is_github_found and not is_google_found %}
+    <p>If you do not see any login button here, then there was some error with the OAUTH procedure.</p>
+    <p>Please check the output message to see if there are any errors or warnings.</p>
+  {% endif %}
+{% endblock %}
